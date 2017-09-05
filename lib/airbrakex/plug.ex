@@ -34,7 +34,7 @@ defmodule Airbrakex.Plug do
 
             error = ExceptionParser.parse(exception)
             if proceed?(Application.get_env(:airbrakex, :ignore), error) do
-              Notifier.notify(error, [params: conn.params, session: session])
+              Notifier.notify(error, [params: conn.params, session: session, context: %{"url" => "#{conn.host}#{conn.request_path}"}])
             end
 
             reraise exception, System.stacktrace
